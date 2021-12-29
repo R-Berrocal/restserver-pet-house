@@ -31,8 +31,6 @@ router.get("/",[
 router.post(
   "/",
   [
-    validarJWT,
-    esAdminRole,
     check("nombre", "El nombre es obligatorio").not().isEmpty(),
     check("correo", "Esto no es un correo valido").isEmail(),
     check("correo").custom(emailExiste),

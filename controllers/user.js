@@ -39,10 +39,10 @@ const usuariosPost = async (req, res) => {
   //guardar en DB
   await usuario.save();
 
-  const usuarioAutenticado = req.usuario;
+  
   res.json({
     usuario,
-    usuarioAutenticado
+    
   });
 };
 const usuariosPut = async (req, res) => {
