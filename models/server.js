@@ -14,6 +14,8 @@ class Server {
     this.middlewares();
     //rutas de mi aplicacion
     this.routes();
+
+    
   }
   async conectarDB(){
       await dbConnection();

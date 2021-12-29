@@ -57,14 +57,30 @@ const usuariosPut = async (req, res) => {
   const usuario = await Usuario.findByIdAndUpdate(id, resto);
   res.json(usuario);
 };
-const usuariosDelete = async(req, res) => {
-  const {id}=req.params
+
+
+  const usuariosDelete = async(req, res) => {
+  
+  const {id}=req.params;
+
+  // const uid= req.uid;
   
   //Fisicamente lo borramos
   // const usuario= await Usuario.findByIdAndDelete(id)
 
-  const usuario = await Usuario.findByIdAndUpdate(id, {estado:false})
-  res.json(usuario);
+  //Eliminamos al usuario extrayendo el id del req.params y cambiamos su estado de true a false
+  const usuarioEliminado = await Usuario.findByIdAndUpdate(id, {estado:false});
+
+
+  //acá almacenamos el usuario autenticado que viene en la request
+  const usuarioAutenticado = req.usuario;
+
+
+  //y mandamos en la respuesta el usuario eliminado y el usuario autenticado que lo elimino
+  res.status(400).json({
+    usuarioEliminado,
+    usuarioAutenticado
+  });
 };
 const usuariosPatch = (req, res) => {
   res.json({
