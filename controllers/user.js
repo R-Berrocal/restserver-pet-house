@@ -5,7 +5,7 @@ const Usuario = require("../models/usurio");
 
 const usuariosGet = async (req = request, res = response) => {
   // const {q,nombre, edad}=  req.query;
-  const { limite = 5, desde = 0 } = req.query;
+  const { limite = 10, desde = 0 } = req.query;
 
   //usamos el query para solo contar y mostrar los usuarios que tengan como estado:true
   const query = { estado: true };
@@ -38,8 +38,11 @@ const usuariosPost = async (req, res) => {
 
   //guardar en DB
   await usuario.save();
+
+  const usuarioAutenticado = req.usuario;
   res.json({
     usuario,
+    usuarioAutenticado
   });
 };
 const usuariosPut = async (req, res) => {
@@ -55,7 +58,11 @@ const usuariosPut = async (req, res) => {
   }
 
   const usuario = await Usuario.findByIdAndUpdate(id, resto);
-  res.json(usuario);
+  const usuarioAutenticado = req.usuario;
+  res.json({
+    usuario,
+    usuarioAutenticado
+  });
 };
 
 
