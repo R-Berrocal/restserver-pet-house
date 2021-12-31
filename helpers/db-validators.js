@@ -8,12 +8,12 @@ const esRoleValido=async(rol="")=>{
       throw new Error(`El rol ${rol} no existe en la base de datos`);
     }
 }
-const emailExiste= async(correo="")=>{
+const emailExiste= async(email="")=>{
 
     //verificar si el correo existe
-    const correoExiste= await Usuario.findOne({correo});
+    const correoExiste= await Usuario.findOne({email});
     if(correoExiste){
-      throw new Error(`EL correo ${correo}, ya existe en la DB`)
+      throw new Error(`EL correo ${email}, ya existe en la DB`)
     }
 }
 const usuarioIdExiste= async(id)=>{

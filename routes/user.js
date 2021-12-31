@@ -31,9 +31,9 @@ router.get("/",[
 router.post(
   "/",
   [
-    check("nombre", "El nombre es obligatorio").not().isEmpty(),
-    check("correo", "Esto no es un correo valido").isEmail(),
-    check("correo").custom(emailExiste),
+    check("name", "El nombre es obligatorio").not().isEmpty(),
+    check("email", "Esto no es un correo valido").isEmail(),
+    check("email").custom(emailExiste),
     check(
       "password",
       "El password debe ser de mas de seis caracteres"

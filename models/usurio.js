@@ -4,11 +4,11 @@ const {Schema, model}=require("mongoose");
 
 
 const usuariosSchema=Schema({
-    nombre:{
+    name:{
         type:String,
         required: [true, "el correo es obligatorio"]
     },
-    correo: {
+    email:{
         type: String,
         required: [true, "El correo es obligatorio"],
         unique: true
@@ -25,7 +25,7 @@ const usuariosSchema=Schema({
         required: true,
         enum: ["ADMIN_ROLE","USER_ROLE"],
     },
-    estado:{
+    condition:{
         type: Boolean,
         default:true
     },

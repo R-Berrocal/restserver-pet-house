@@ -6,25 +6,25 @@ const Usuario =  require("../models/usurio")
 
 
 const login = async (req=request,res= response)=>{
-    const {correo, password}=req.body;
+    const {email, password}=req.body;
 
     try {
         //Verificar si el email existe
-        const usuario = await Usuario.findOne({correo});
-        if(!usuario){
+        const user = await Usuario.findOne({email});
+        if(!user){
             return res.status(400).json({
                 msg: "Usuario / Password no son correctos - correo"
             })
         }
         //Si el usuario está activo 
-        if(!usuario.estado){
+        if(!user.condition){
             return res.status(400).json({
                 msg: "Usuario / Password no son correctos - estado: false"
             })
         }
 
         //Verificar la contraseña
-        const validPassword = bcryptjs.compareSync(password, usuario.password);
+        const validPassword = bcryptjs.compareSync(password, user.password);
         if(!validPassword){
             return res.status(400).json({
                 msg: "Usuario / Password no son correctos - password"
@@ -32,10 +32,10 @@ const login = async (req=request,res= response)=>{
         }
 
         //Generar el jwt
-        const token = await generarJWT(usuario.id);
+        const token = await generarJWT(user.id);
 
         res.json({
-            usuario,
+            user,
             token
         })
     } catch (error) {
@@ -49,37 +49,37 @@ const googleSignIn=async(req,res=response)=>{
     const {id_token}=req.body;
     try {
 
-        const  {nombre,correo,img} = await googleVerify(id_token);
+        const  {name,email,img} = await googleVerify(id_token);
         
-        let usuario = await Usuario.findOne({correo});
-        if(!usuario){
+        let user = await Usuario.findOne({email});
+        if(!user){
             //si no existe el usuario tengo que crearlo
             const data={
-                nombre,
-                correo,
+                name,
+                email,
                 rol:"USER_ROLE",
                 password:":p",
                 img,
                 google:true,
             };
 
-            usuario = new Usuario(data);
-            await usuario.save();
+            user = new Usuario(data);
+            await user.save();
         }
 
         //si el usuario en db tiene el estado en false
 
-        if(!usuario.estado){
+        if(!user.condition){
             return res.status(401).json({
                 msg:"hable con el administrador usuario bloqueado"
             })
         }
 
         //Generar el jwt
-        const token = await generarJWT(usuario.id);
+        const token = await generarJWT(user.id);
 
         res.json({
-            usuario,
+            user,
             token
         })
     } catch (error) {

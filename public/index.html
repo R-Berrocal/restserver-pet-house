@@ -27,37 +27,73 @@
 
     <button id="google_signout">signout</button>
 
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button>
+    <script>
+      window.fbAsyncInit = function () {
+        FB.init({
+          appId: "426328252466508",
+          cookie: true,
+          xfbml: true,
+          version: "v12.0",
+        });
+
+        FB.AppEvents.logPageView();
+
+        
+      };
+
+      (function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, "script", "facebook-jssdk");
+
+
+    </script>
+    <script>
+    function checkLoginState() {
+      FB.getLoginStatus((response)=> {
+        if (response.status === 'connected') {
+        console.log(response.authResponse.accessToken);
+        }
+      });
+    }</script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        function handleCredentialResponse(response) {
+      function handleCredentialResponse(response) {
+        const body = { id_token: response.credential };
+        fetch("http://localhost:3000/api/auth/google", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        })
+          .then((resp) => resp.json())
+          .then((resp) => {
+            console.log(resp);
+            localStorage.setItem("Email: ", resp.usuario.correo);
+          })
+          .catch(console.warn);
+      }
 
-            const body={id_token:response.credential};
-            fetch("http://localhost:3000/api/auth/google",{
-                method:"POST",
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify(body)
-            })
-            .then(resp=>resp.json())
-              .then(resp=>{
-                  console.log(resp);
-                  localStorage.setItem("Email: ",resp.usuario.correo)
-              })
-              .catch(console.warn);
+      const button = document.getElementById("google_signout");
+      button.onclick = () => {
+        console.log(google.accounts.id);
+        google.accounts.id.disableAutoSelect();
 
-        }
-
-        const button = document.getElementById("google_signout");
-        button.onclick=()=>{
-            console.log(google.accounts.id);
-            google.accounts.id.disableAutoSelect();
-
-            google.accounts.id.revoke(localStorage.getItem("Email"), done=>{
-              localStorage.clear();
-              location.reload();
-            });
-        }
-      </script>
+        google.accounts.id.revoke(localStorage.getItem("Email"), (done) => {
+          localStorage.clear();
+          location.reload();
+        });
+      };
+    </script>
   </body>
 </html>

@@ -8,7 +8,7 @@ const usuariosGet = async (req = request, res = response) => {
   const { limite = 10, desde = 0 } = req.query;
 
   //usamos el query para solo contar y mostrar los usuarios que tengan como estado:true
-  const query = { estado: true };
+  const query = { condition: true };
 
   // const usuarios = await Usuario.find()
   // .skip(Number(desde))
@@ -18,36 +18,36 @@ const usuariosGet = async (req = request, res = response) => {
   //promise.all nos permite mandar todas las promesas que queremos que se ejecuten en un arreglo
   //usamos una desesctructuracion de arreglos para mostrar el total y los usuarios
 
-  const [total, usuarios] = await Promise.all([
+  const [total, users] = await Promise.all([
     Usuario.countDocuments(query),
     Usuario.find(query).skip(Number(desde)).limit(Number(limite)),
   ]);
   res.json({
     total,
-    usuarios,
+    users,
   });
 };
 
 const usuariosPost = async (req, res) => {
-  const { nombre, correo, password, rol } = req.body;
-  const usuario = new Usuario({ nombre, correo, password, rol });
+  const { name, email, password, rol } = req.body;
+  const user = new Usuario({ name, email, password, rol });
 
   //encriptar la contraseña
   const salt = bcryptjs.genSaltSync();
-  usuario.password = bcryptjs.hashSync(password, salt);
+  user.password = bcryptjs.hashSync(password, salt);
 
   //guardar en DB
-  await usuario.save();
+  await user.save();
 
   
   res.json({
-    usuario,
+    user,
     
   });
 };
 const usuariosPut = async (req, res) => {
   const { id } = req.params;
-  const { _id, password, google, correo, ...resto } = req.body;
+  const { _id, password, google, email, ...resto } = req.body;
 
   //Todo validar contra la base de datos
 
@@ -57,11 +57,11 @@ const usuariosPut = async (req, res) => {
     resto.password = bcryptjs.hashSync(password, salt);
   }
 
-  const usuario = await Usuario.findByIdAndUpdate(id, resto);
-  const usuarioAutenticado = req.usuario;
+  const user = await Usuario.findByIdAndUpdate(id, resto);
+  const userAuthenticated  = req.user;
   res.json({
-    usuario,
-    usuarioAutenticado
+    user,
+    userAuthenticated
   });
 };
 
@@ -76,28 +76,23 @@ const usuariosPut = async (req, res) => {
   // const usuario= await Usuario.findByIdAndDelete(id)
 
   //Eliminamos al usuario extrayendo el id del req.params y cambiamos su estado de true a false
-  const usuarioEliminado = await Usuario.findByIdAndUpdate(id, {estado:false});
+  const userDeleted = await Usuario.findByIdAndUpdate(id, {condition:false});
 
 
   //acá almacenamos el usuario autenticado que viene en la request
-  const usuarioAutenticado = req.usuario;
+  const userAuthenticated = req.user;
 
 
   //y mandamos en la respuesta el usuario eliminado y el usuario autenticado que lo elimino
   res.status(400).json({
-    usuarioEliminado,
-    usuarioAutenticado
+    userDeleted,
+    userAuthenticated
   });
 };
-const usuariosPatch = (req, res) => {
-  res.json({
-    msg: "patch API-Controlador",
-  });
-};
+
 module.exports = {
   usuariosGet,
   usuariosPost,
   usuariosPut,
-  usuariosPatch,
   usuariosDelete,
 };

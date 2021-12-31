@@ -9,7 +9,7 @@ const { validarCampos } = require("../middlewares/validar-campos");
 const router = Router();
 
 router.post("/login",[
-    check("correo","El correo es obligatorio").isEmail(),
+    check("email","El correo es obligatorio").isEmail(),
     check("password","la contraseña es obligatoria").not().isEmpty(),
     validarCampos
 ], login);
