@@ -1,9 +1,9 @@
 const bcryptjs = require("bcryptjs");
 const {request,response} = require("express");
+const { facebookVerify } = require("../helpers/facebook-verify");
 const { generarJWT } = require("../helpers/generar-jwt");
 const {googleVerify}=require("../helpers/google-verify")
-const Usuario =  require("../models/usurio")
-
+const Usuario =  require("../models/usurio");
 
 const login = async (req=request,res= response)=>{
     const {email, password}=req.body;
@@ -91,7 +91,19 @@ const googleSignIn=async(req,res=response)=>{
 }
 
 
+const facebookSigin=(req, res)=>{
+    const {id_token}=req.body;
+
+    const resp =facebookVerify(id_token);
+    res.json({
+        msg:"facebook login",
+        id_token,
+        resp
+    })
+}
+
 module.exports= {
     login,
-    googleSignIn
+    googleSignIn,
+    facebookSigin
 }

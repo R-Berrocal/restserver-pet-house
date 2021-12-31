@@ -32,6 +32,10 @@ const usuariosSchema=Schema({
     google:{
         type:Boolean,
         default: false
+    },
+    createdIn:{
+        type: Date,
+        default: Date.now
     }
 });
 
