@@ -21,10 +21,22 @@ router.post("/google",[
     validarCampos
 ], googleSignIn);
 
-router.post("/facebook",[
-    check("id_token","id_token de facebook es necesario").not().isEmpty(),
-    validarCampos
-], facebookSigin);
+router.get("/facebook",passport.authenticate("facebook",{scope:["email"]}));
 
+router.get("/callback",passport.authenticate("facebook", {
+    successRedirect: "https://localhost:3000/home",
+    failureRedirect: "http://localhost:3000/api/auth/error",
+    session : false 
+    }),(req,res)=>{
+        res.json({
+          token: req.user.jwtoken
+        })
+      }
+);
+   
+
+router.get('/error', (req,res) => {
+    res.send("Error");
+});
 
 module.exports=router;

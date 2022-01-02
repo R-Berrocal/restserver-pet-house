@@ -91,19 +91,9 @@ const googleSignIn=async(req,res=response)=>{
 }
 
 
-const facebookSigin=(req, res)=>{
-    const {id_token}=req.body;
 
-    const resp =facebookVerify(id_token);
-    res.json({
-        msg:"facebook login",
-        id_token,
-        resp
-    })
-}
 
 module.exports= {
     login,
     googleSignIn,
-    facebookSigin
 }

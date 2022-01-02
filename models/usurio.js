@@ -36,7 +36,8 @@ const usuariosSchema=Schema({
     createdIn:{
         type: Date,
         default: Date.now
-    }
+    },
+    
 });
 
 usuariosSchema.methods.toJSON=function(){
