@@ -9,7 +9,7 @@ passport.use(
   {
     clientID : process.env.FACEBOOK_CLIENT_ID,
     clientSecret : process.env.FACEBOOK_CLIENT_SECRET_ID,
-    callbackURL : "http://localhost:3000/api/auth/callback",
+    callbackURL : "https://restserver-petouse.herokuapp.com/api/auth/callback",
     profileFields: ['id', 'emails', 'name',"picture"]
   },
     
