@@ -1,3 +1,4 @@
+const { Publication } = require("../models");
 const role = require("../models/role");
 const Usuario=require("../models/usurio");
 
@@ -24,8 +25,16 @@ const usuarioIdExiste= async(id)=>{
       throw new Error(`EL usuario con ${id}, no existe en la DB`)
     }
 }
+
+const publicationIdExiste= async(id)=>{
+  const publicationExiste = await Publication.findById(id);
+  if(!publicationExiste){
+    throw new Error(`El id de la publicacion no existe, ${id}`);
+  }
+}
 module.exports={
     esRoleValido,
     emailExiste,
-    usuarioIdExiste
+    usuarioIdExiste,
+    publicationIdExiste
 }

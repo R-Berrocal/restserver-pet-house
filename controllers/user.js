@@ -59,7 +59,7 @@ const usuariosPut = async (req, res) => {
 
   
   resto.updated_In=new Date();
-  const user = await Usuario.findByIdAndUpdate(id, resto);
+  const user = await Usuario.findByIdAndUpdate(id, resto,{new:true});
   const userAuthenticated  = req.user;
   res.json({
     user,
