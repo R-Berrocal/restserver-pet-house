@@ -33,15 +33,22 @@ const usuariosSchema=Schema({
         type:Boolean,
         default: false
     },
-    createdIn:{
+    created_In:{
         type: Date,
         default: Date.now
     },
+    updated_In:{
+        type:Date,
+        default: Date.now
+    },
+    
     
 });
 
+
 usuariosSchema.methods.toJSON=function(){
     const {__v,password,_id, ...usuario}= this.toObject();
+    
     usuario.uid=_id;
     return usuario;
 }

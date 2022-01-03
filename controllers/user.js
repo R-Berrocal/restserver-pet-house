@@ -47,7 +47,7 @@ const usuariosPost = async (req, res) => {
 };
 const usuariosPut = async (req, res) => {
   const { id } = req.params;
-  const { _id, password, google, email, ...resto } = req.body;
+  const { _id, password, google, email,  ...resto } = req.body;
 
   //Todo validar contra la base de datos
 
@@ -57,6 +57,8 @@ const usuariosPut = async (req, res) => {
     resto.password = bcryptjs.hashSync(password, salt);
   }
 
+  
+  resto.updated_In=new Date();
   const user = await Usuario.findByIdAndUpdate(id, resto);
   const userAuthenticated  = req.user;
   res.json({
