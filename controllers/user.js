@@ -2,6 +2,7 @@ const { response, request } = require("express");
 const bcryptjs = require("bcryptjs");
 
 const Usuario = require("../models/usurio");
+const { generarJWT } = require("../helpers/generar-jwt");
 
 const usuariosGet = async (req = request, res = response) => {
   // const {q,nombre, edad}=  req.query;
@@ -38,11 +39,11 @@ const usuariosPost = async (req, res) => {
 
   //guardar en DB
   await user.save();
-
+  const token = await generarJWT(user.id);
   
   res.json({
     user,
-    
+    token
   });
 };
 const usuariosPut = async (req, res) => {
@@ -59,6 +60,7 @@ const usuariosPut = async (req, res) => {
 
   
   resto.updated_In=new Date();
+  //usamos {new:true} para que nos muestre el usuario actualizado 
   const user = await Usuario.findByIdAndUpdate(id, resto,{new:true});
   const userAuthenticated  = req.user;
   res.json({

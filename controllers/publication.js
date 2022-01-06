@@ -43,7 +43,8 @@ const obtenerPublicationsUser=async(req,res)=>{
 }
 
 const crearPublication=async(req,res)=>{
-    const description = req.body.description;
+    const {condition,user, ...resto} = req.body;
+    const description=resto.description;
     
     const data={
         description,
