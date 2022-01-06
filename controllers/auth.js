@@ -90,10 +90,20 @@ const googleSignIn=async(req,res=response)=>{
     }
 }
 
+const renovar_o_validarJwt=async(req,res)=>{
+    const userAuthenticated = req.user;
+    const token = await generarJWT(userAuthenticated.id);
+
+    res.json({
+        userAuthenticated,
+        token
+    })
+}
 
 
 
 module.exports= {
     login,
     googleSignIn,
+    renovar_o_validarJwt
 }
