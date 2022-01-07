@@ -25,6 +25,8 @@ router.get("/:id",[
 router.post("/",[
   validarJWT,
   check("description","la descripcion es obligatoria").not().isEmpty(),
+  check("imgs","debe subir al menos una imagen").isLength({min:1}),
+  check("localization","debe mandar las coordenadas longitud y latitud").not().isEmpty(),
   validarCampos
 ], crearPublication);
 

@@ -44,10 +44,17 @@ const obtenerPublicationsUser=async(req,res)=>{
 
 const crearPublication=async(req,res)=>{
     const {condition,user, ...resto} = req.body;
+
+
+    const title= resto.title;
     const description=resto.description;
-    
+    const imgs=resto.imgs;
+    const localization=resto.localization;
     const data={
+        title,
         description,
+        imgs,
+        localization,
         user: req.user._id
     }
     const publication_AS = new Publication(data);
@@ -65,7 +72,7 @@ const actualizarPublication = async(req, res )=>{
     const {user, ...data}=req.body;
 
     data.user=req.user_id;
-
+    data.updated_In=new Date();
     const publication = await Publication.findByIdAndUpdate(id,data,{new:true});
     res.json(publication);
 }
