@@ -91,11 +91,11 @@ const googleSignIn=async(req,res=response)=>{
 }
 
 const renovar_o_validarJwt=async(req,res)=>{
-    const userAuthenticated = req.user;
-    const token = await generarJWT(userAuthenticated.id);
+    const user = req.user;
+    const token = await generarJWT(user.id);
 
     res.json({
-        userAuthenticated,
+        user,
         token
     })
 }
