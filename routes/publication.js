@@ -4,7 +4,8 @@ const { crearPublication,
         obtenerPublitions,
         obtenerPublicationsUser,
         actualizarPublication, 
-        borrarPublication} = require("../controllers/publication");
+        borrarPublication,
+        obtenerPublication} = require("../controllers/publication");
 
 const {validarJWT,validarCampos, esAdminRole}=require("../middlewares");
 const {usuarioIdExiste,publicationIdExiste}=require("../helpers/db-validators")
@@ -14,11 +15,17 @@ const router = Router();
 router.get("/", obtenerPublitions);
 
 //obtener una publicacion por id - publico
-router.get("/:id",[
+router.get("/user/:id",[
   check("id","No es un id de mongo").isMongoId(),
   check("id").custom(usuarioIdExiste),
   validarCampos
 ], obtenerPublicationsUser);
+
+router.get("/:id",[
+  check("id","No es un id de mongo").isMongoId(),
+  check("id").custom(publicationIdExiste),
+  validarCampos
+],obtenerPublication );
 
 
 //crear una publicacion - privado -  cualquier persona con un token valido
