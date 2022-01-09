@@ -1,26 +1,29 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
 const { crearPublication,
-        obtenerPublitions,
+        obtenerPublications,
         obtenerPublicationsUser,
+        obtenerPublication,
         actualizarPublication, 
         borrarPublication,
-        obtenerPublication} = require("../controllers/publication");
+        } = require("../controllers/publication");
 
 const {validarJWT,validarCampos, esAdminRole}=require("../middlewares");
 const {usuarioIdExiste,publicationIdExiste}=require("../helpers/db-validators")
 const router = Router();
 
 //obtener todas las publicaciones - publico
-router.get("/", obtenerPublitions);
+router.get("/", obtenerPublications);
 
-//obtener una publicacion por id - publico
+//obtener publicaciones de usuario por id - publico
 router.get("/user/:id",[
   check("id","No es un id de mongo").isMongoId(),
   check("id").custom(usuarioIdExiste),
   validarCampos
 ], obtenerPublicationsUser);
 
+
+//obtener una publicacion por id - publico
 router.get("/:id",[
   check("id","No es un id de mongo").isMongoId(),
   check("id").custom(publicationIdExiste),

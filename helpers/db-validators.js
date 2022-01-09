@@ -1,4 +1,4 @@
-const { Publication,Usuario,Role } = require("../models");
+const { Publication,Usuario,Role,Comment } = require("../models");
 
 
 const esRoleValido=async(rol="")=>{
@@ -30,7 +30,15 @@ const publicationIdExiste= async(id)=>{
     throw new Error(`El id de la publicacion no existe, ${id}`);
   }
 }
+
+const commentIdExiste= async(id)=>{
+  const commentExiste = await Comment.findById(id);
+  if(!commentExiste){
+    throw new Error(`El id del comentario no existe, ${id}`);
+  }
+}
 module.exports={
+    commentIdExiste,
     esRoleValido,
     emailExiste,
     usuarioIdExiste,

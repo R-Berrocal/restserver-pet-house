@@ -4,7 +4,7 @@ const {Publication} = require("../models");
 
 // obtener publicaciones - paginado - total - populate
 
-const obtenerPublitions=async(req,res)=>{
+const obtenerPublications=async(req,res)=>{
     const {limite=10, desde=0}= req.query;
     const query = {condition:true};
 
@@ -52,19 +52,8 @@ const obtenerPublication=async(req,res)=>{
 
 const crearPublication=async(req,res)=>{
     const {condition,user, ...resto} = req.body;
-
-
-    const title= resto.title;
-    const description=resto.description;
-    const animal_type=resto.animal_type;
-    const imgs=resto.imgs;
-    const localization=resto.localization;
     const data={
-        title,
-        description,
-        animal_type,
-        imgs,
-        localization,
+        ...resto,
         user: req.user._id
     }
     const publication_AS = new Publication(data);
@@ -97,7 +86,7 @@ const borrarPublication=async(req,res)=>{
 
 module.exports={
     crearPublication,
-    obtenerPublitions,
+    obtenerPublications,
     obtenerPublicationsUser,
     obtenerPublication,
     actualizarPublication,

@@ -1,5 +1,5 @@
 const {ObjectId}=require("mongoose").Types;
-const {Usuario}=require("../models")
+const {Usuario, Publication}=require("../models");
 const coleccionesPermitidas = [
     "user",
     "publication",
@@ -26,6 +26,25 @@ const buscarUsuarios= async (ended="",res)=>{
     });
 }
 
+const buscarPublication= async (ended="",res)=>{
+    const esMongId=ObjectId.isValid(ended);
+    if(esMongId){
+        const publication=await Publication.findById(ended);
+        return res.json({
+            results:(publication)?[publication]:[],
+        });
+    }
+    const regex=new RegExp(ended,"i");
+    const publication= await Publication.find({
+        $or: [{title:regex},{description:regex}],
+        $and: [{condition:true}]
+    })
+
+    res.json({
+        results:publication
+    });
+}
+
 const buscar=(req,res)=>{
     const {collection,ended}=req.params
     if(!coleccionesPermitidas.includes(collection)){
@@ -40,7 +59,7 @@ const buscar=(req,res)=>{
         
         break;
         case "publication":
-            
+            buscarPublication(ended,res)
         
         break;
 
