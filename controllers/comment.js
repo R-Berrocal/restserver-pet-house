@@ -28,7 +28,7 @@ const obtenerCommentsUser=async(req,res)=>{
 
     const {limite=10, desde=0}= req.query;
     const {id}=req.params;
-    const query = {id,condition:true};
+    const query = {user:id,condition:true};
 
     const [total,comments]= await Promise.all([
         Comment.countDocuments(query),
@@ -49,7 +49,7 @@ const obtenerCommentsPublication=async(req,res)=>{
 
     const {limite=10, desde=0}= req.query;
     const {id}=req.params;
-    const query = {id,condition:true};
+    const query = {publication:id,condition:true};
 
     const [total,comments]= await Promise.all([
         Comment.countDocuments(query),

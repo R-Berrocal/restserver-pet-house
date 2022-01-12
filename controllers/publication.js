@@ -49,7 +49,7 @@ const obtenerPublicationsUser=async(req,res)=>{
 
     const {limite=10, desde=0}= req.query;
     const {id}=req.params;
-    const query = {id};
+    const query = {user:id};
 
     const [total,publications]= await Promise.all([
         Publication.countDocuments(query),
