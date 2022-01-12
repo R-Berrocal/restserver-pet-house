@@ -12,6 +12,29 @@ const obtenerPublications=async(req,res)=>{
         Publication.countDocuments(query),
         Publication.find(query)
         .populate("user","name")
+        .sort({"created_In":-1})
+        .skip(Number(desde))
+        .limit(Number(limite))
+    ])
+
+    res.json({
+        total,
+        publications
+    })
+}
+
+
+const obtenerPublicationsType=async(req,res)=>{
+
+    const {limite=10, desde=0}= req.query;
+    const {type}=req.params;
+    const regex= new RegExp(type,"i");
+    const query = {animal_type: regex};
+
+    const [total,publications]= await Promise.all([
+        Publication.countDocuments(query),
+        Publication.find(query)
+        .sort({"created_In":-1})
         .skip(Number(desde))
         .limit(Number(limite))
 
@@ -22,7 +45,6 @@ const obtenerPublications=async(req,res)=>{
         publications
     })
 }
-
 const obtenerPublicationsUser=async(req,res)=>{
 
     const {limite=10, desde=0}= req.query;
@@ -32,6 +54,7 @@ const obtenerPublicationsUser=async(req,res)=>{
     const [total,publications]= await Promise.all([
         Publication.countDocuments(query),
         Publication.find(query)
+        .sort({"created_In":-1})
         .skip(Number(desde))
         .limit(Number(limite))
 
@@ -88,6 +111,7 @@ module.exports={
     crearPublication,
     obtenerPublications,
     obtenerPublicationsUser,
+    obtenerPublicationsType,
     obtenerPublication,
     actualizarPublication,
     borrarPublication,

@@ -12,6 +12,7 @@ const obtenerComments=async(req,res)=>{
         Comment.find(query)
         .populate("user","name")
         .populate("publication","title")
+        .sort({"created_In":-1})
         .skip(Number(desde))
         .limit(Number(limite))
 
@@ -33,6 +34,7 @@ const obtenerCommentsUser=async(req,res)=>{
         Comment.countDocuments(query),
         Comment.find(query)
         .populate("publication","title")
+        .sort({"created_In":-1})
         .skip(Number(desde))
         .limit(Number(limite))
     ])
@@ -53,6 +55,7 @@ const obtenerCommentsPublication=async(req,res)=>{
         Comment.countDocuments(query),
         Comment.find(query)
         .populate("user","name")
+        .sort({"created_In":-1})
         .skip(Number(desde))
         .limit(Number(limite))
     ])

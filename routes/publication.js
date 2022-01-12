@@ -6,6 +6,7 @@ const { crearPublication,
         obtenerPublication,
         actualizarPublication, 
         borrarPublication,
+        obtenerPublicationsType,
         } = require("../controllers/publication");
 
 const {validarJWT,validarCampos, esAdminRole}=require("../middlewares");
@@ -14,6 +15,8 @@ const router = Router();
 
 //obtener todas las publicaciones - publico
 router.get("/", obtenerPublications);
+
+router.get("/animal_Type/:type", obtenerPublicationsType);
 
 //obtener publicaciones de usuario por id - publico
 router.get("/user/:id",[
