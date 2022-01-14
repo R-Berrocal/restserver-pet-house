@@ -42,8 +42,8 @@ router.get("/:id",[
 router.post("/",[
   validarJWT,
   check("description","la descripcion es obligatoria").not().isEmpty(),
-  check("publication","No es un id de mongo valido").isMongoId(),
-  check("publication").custom(publicationIdExiste),
+  check("publication_id","No es un id de mongo valido").isMongoId(),
+  check("publication_id").custom(publicationIdExiste),
   validarCampos
 ], crearComment);
 

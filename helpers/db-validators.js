@@ -37,8 +37,17 @@ const commentIdExiste= async(id)=>{
     throw new Error(`El id del comentario no existe, ${id}`);
   }
 }
+
+const coleccionesPermitidas=(coleccion="",colecciones=[])=>{
+    const incluida = colecciones.includes(coleccion);
+    if(!incluida){
+      throw new Error(`la coleccion ${coleccion} no es permitida, ${colecciones}`);
+    }
+    return true;
+}
 module.exports={
     commentIdExiste,
+    coleccionesPermitidas,
     esRoleValido,
     emailExiste,
     usuarioIdExiste,

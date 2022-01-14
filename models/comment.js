@@ -15,7 +15,7 @@ const comentarioSchema=Schema({
         ref:"Usuario",
         required: true
     },
-    publication:{
+    publication_id:{
         type: Schema.Types.ObjectId,
         ref:"AS",
         required: true

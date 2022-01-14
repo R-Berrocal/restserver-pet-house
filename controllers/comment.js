@@ -11,7 +11,7 @@ const obtenerComments=async(req,res)=>{
         Comment.countDocuments(query),
         Comment.find(query)
         .populate("user","name")
-        .populate("publication","title")
+        .populate("publication_id","title")
         .sort({"created_In":-1})
         .skip(Number(desde))
         .limit(Number(limite))
@@ -33,7 +33,7 @@ const obtenerCommentsUser=async(req,res)=>{
     const [total,comments]= await Promise.all([
         Comment.countDocuments(query),
         Comment.find(query)
-        .populate("publication","title")
+        .populate("publication_id","title")
         .sort({"created_In":-1})
         .skip(Number(desde))
         .limit(Number(limite))
@@ -71,7 +71,7 @@ const obtenerComment=async(req,res)=>{
     const {id}=req.params;
     const comment= await Comment.findById(id)
                                 .populate("user","name")
-                                .populate("publication","name");
+                                .populate("publication_id","title");
     res.json({
         comment
     })
