@@ -49,7 +49,7 @@ const obtenerCommentsPublication=async(req,res)=>{
 
     const {limite=10, desde=0}= req.query;
     const {id}=req.params;
-    const query = {publication:id,condition:true};
+    const query = {publication_id:id,condition:true};
 
     const [total,comments]= await Promise.all([
         Comment.countDocuments(query),
