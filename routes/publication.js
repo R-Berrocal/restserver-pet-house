@@ -10,7 +10,8 @@ const { crearPublication,
         } = require("../controllers/publication");
 
 const {validarJWT,validarCampos, esAdminRole}=require("../middlewares");
-const {usuarioIdExiste,publicationIdExiste}=require("../helpers/db-validators")
+const {usuarioIdExiste,publicationIdExiste}=require("../helpers/db-validators");
+const { validarArchivo } = require("../middlewares/validar-archivo");
 const router = Router();
 
 //obtener todas las publicaciones - publico
@@ -38,8 +39,7 @@ router.get("/:id",[
 router.post("/",[
   validarJWT,
   check("description","la descripcion es obligatoria").not().isEmpty(),
-  check("imgs","debe subir al menos una imagen").isLength({min:1}),
-  check("localization","debe mandar las coordenadas longitud y latitud").not().isEmpty(),
+  validarArchivo,
   validarCampos
 ], crearPublication);
 

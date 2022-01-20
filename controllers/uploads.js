@@ -146,7 +146,7 @@ const actualizarImagenCloudinary = async(req,res)=>{
             
             user.img=secure_url;
             await user.save();
-
+            
             res.json(user);
         break;
 
