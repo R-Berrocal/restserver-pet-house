@@ -35,14 +35,6 @@ const publicationSchema= Schema({
             type: Array,
             default: [],
             required:[true,"las coordenadas deben venir"]
-        },
-        durations:{
-            walking:String,
-            driving:String,
-            cycling:String
-        },
-        distance:{
-            type:String
         }
     },
     created_In:{
