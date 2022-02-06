@@ -10,7 +10,7 @@ const obtenerComments=async(req,res)=>{
     const [total,comments]= await Promise.all([
         Comment.countDocuments(query),
         Comment.find(query)
-        .populate("user","name")
+        .populate("user",["name","img"])
         .populate("publication_id","title")
         .sort({"created_In":-1})
         .skip(Number(desde))

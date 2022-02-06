@@ -4,13 +4,13 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 // obtener publicaciones - paginado - total - populate
 
 const obtenerPublications = async (req, res) => {
-  const { limite = 10, desde = 0 } = req.query;
+  const { limite = 5, desde = 0 } = req.query;
   const query = { condition: true };
 
   const [total, publications] = await Promise.all([
     Publication.countDocuments(query),
     Publication.find(query)
-      .populate("user", "name")
+      .populate("user",["name","img"])
       .sort({ created_In: -1 })
       .skip(Number(desde))
       .limit(Number(limite)),
@@ -26,11 +26,12 @@ const obtenerPublicationsType = async (req, res) => {
   const { limite = 10, desde = 0 } = req.query;
   const { type } = req.params;
   const regex = new RegExp(type, "i");
-  const query = { animal_type: regex };
+  const query = { animal_type: regex, condition:true };
 
   const [total, publications] = await Promise.all([
     Publication.countDocuments(query),
     Publication.find(query)
+      .populate("user", ["name","img"])
       .sort({ created_In: -1 })
       .skip(Number(desde))
       .limit(Number(limite)),

@@ -7,6 +7,7 @@ const { cargarArchivo,
         actualizarImgPublication} = require("../controllers/uploads");
 
 const { coleccionesPermitidas } = require("../helpers/db-validators");
+const { validarJWT } = require("../middlewares");
 const { validarArchivo } = require("../middlewares/validar-archivo");
 
 const {validarCampos}=require("../middlewares/validar-campos")
@@ -16,6 +17,7 @@ const router = Router();
 router.post("/",validarArchivo,cargarArchivo);
 
 router.post("/:coleccion/:id",[
+    validarJWT,
     check("id","no es un id de mongo").isMongoId(),
     validarArchivo,
     check("coleccion").custom(c=> coleccionesPermitidas(c,["users","publications"])),
@@ -23,12 +25,14 @@ router.post("/:coleccion/:id",[
 ],actualizarImagenCloudinary);
 
 router.put("/publication/:id/:index",[
+    validarJWT,
     check("id","no es un id de mongo").isMongoId(),
     validarArchivo,
     validarCampos
 ],actualizarImgPublication)
 
 router.delete("/:coleccion/:id",[
+    validarJWT,
     check("id","no es un id de mongo").isMongoId(),
     check("coleccion").custom(c=> coleccionesPermitidas(c,["users","publications"])),
     validarCampos
