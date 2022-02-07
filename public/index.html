@@ -27,7 +27,7 @@
 
     <button id="google_signout">signout</button>
 
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    <!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
     </fb:login-button>
     <script>
       window.fbAsyncInit = function () {
@@ -64,12 +64,13 @@
         console.log(response.authResponse.accessToken);
         }
       });
-    }</script>
+    }
+    </script> -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
       function handleCredentialResponse(response) {
         const body = { id_token: response.credential };
-        fetch("http://localhost:3000/api/auth/google", {
+        fetch("https://restserver-petouse.herokuapp.com/api/auth/google", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -79,7 +80,7 @@
           .then((resp) => resp.json())
           .then((resp) => {
             console.log(resp);
-            localStorage.setItem("Email: ", resp.usuario.correo);
+            localStorage.setItem("Email: ", resp.user.email);
           })
           .catch(console.warn);
       }

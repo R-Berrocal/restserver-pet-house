@@ -60,7 +60,6 @@ router.put("/:id", [
 //Borrar publicacion - privado - Admin
 router.delete("/:id",[
   validarJWT,
-  esAdminRole,
   check("id","No es un id de mongo").isMongoId(),
   check("id").custom(commentIdExiste),
   validarCampos
