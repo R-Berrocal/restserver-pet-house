@@ -1,46 +1,29 @@
 const {Schema, model}=require("mongoose");
 
-const publicationSchema= Schema({
+const adoptionSchema= Schema({
     user:{
         type: Schema.Types.ObjectId,
         ref:"Usuario",
         required:true
     },
-    title:{
-        type:String
+    publication_id:{
+        type: Schema.Types.ObjectId,
+        ref:"AS",
+        required: true
     },
-    description:{
+    name:{
         type:String,
-        required: [true,"La descripcion no puede estar vacia"]
+        required:[true,"debe ingresar el nombre de la mascota"]
     },
     condition:{
         type: Boolean,
         default:true,
         required:true
     },
-    isAdopt:{
-        type: Boolean,
-        default:null,
-
-    },
-    animal_type:{
-        type: String    
-    },
     imgs:{
         type:Array,
         default:[],
         required: [true,"debe tener al menos una imagen"]
-    },
-    publication_type:{
-        type:String,
-        default: "AS"
-    },
-    localization:{
-        coordinates:{
-            type: Array,
-            default: [],
-            required:[true,"las coordenadas deben venir"]
-        }
     },
     created_In:{
         type: Date,
@@ -53,10 +36,10 @@ const publicationSchema= Schema({
     
 });
 
-publicationSchema.methods.toJSON=function(){
+adoptionSchema.methods.toJSON=function(){
     const {__v, ...data}=this.toObject();
     return data
 }
 
 
-module.exports = model("AS",publicationSchema);
+module.exports = model("Adoption",adoptionSchema);
