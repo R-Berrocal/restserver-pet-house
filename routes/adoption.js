@@ -3,7 +3,8 @@ const { check } = require("express-validator");
 const { obtenerAdoptions,crearAdoption} = require("../controllers/adoption");
 
 const {validarJWT,validarCampos}=require("../middlewares");
-const {publicationIdExiste}=require("../helpers/db-validators")
+const {publicationIdExiste}=require("../helpers/db-validators");
+const { validarArchivo } = require("../middlewares/validar-archivo");
 const router = Router();
 
 //obtener todas las adopciones - publico
@@ -17,6 +18,7 @@ router.post("/",[
   check("name","el nombre es obligatoria").not().isEmpty(),
   check("publication_id","No es un id de mongo valido").isMongoId(),
   check("publication_id").custom(publicationIdExiste),
+  validarArchivo,
   validarCampos
 ], crearAdoption);
 
