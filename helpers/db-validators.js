@@ -1,4 +1,4 @@
-const { Publication,Usuario,Role,Comment } = require("../models");
+const { Publication,Usuario,Role,Comment, Adoption } = require("../models");
 
 
 const esRoleValido=async(rol="")=>{
@@ -37,6 +37,12 @@ const commentIdExiste= async(id)=>{
     throw new Error(`El id del comentario no existe, ${id}`);
   }
 }
+const adoptionIdExiste= async(id)=>{
+  const adoptionExiste = await Adoption.findById(id);
+  if(!adoptionExiste){
+    throw new Error(`El id del comentario no existe, ${id}`);
+  }
+}
 
 const coleccionesPermitidas=(coleccion="",colecciones=[])=>{
     const incluida = colecciones.includes(coleccion);
@@ -46,6 +52,7 @@ const coleccionesPermitidas=(coleccion="",colecciones=[])=>{
     return true;
 }
 module.exports={
+    adoptionIdExiste,
     commentIdExiste,
     coleccionesPermitidas,
     esRoleValido,

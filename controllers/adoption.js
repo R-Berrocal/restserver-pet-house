@@ -57,8 +57,15 @@ const crearAdoption=async(req,res)=>{
         adoption
     })
 }
-
+const borrarAdoption=async(req,res)=>{
+    const {id}=req.params;
+    const adoption= await Adoption.findByIdAndUpdate(id,{condition:false},{new: true});
+    res.json({
+        adoption
+    })
+}
 module.exports={
     obtenerAdoptions,
-    crearAdoption
+    crearAdoption,
+    borrarAdoption
 }

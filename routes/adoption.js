@@ -1,9 +1,9 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { obtenerAdoptions,crearAdoption} = require("../controllers/adoption");
+const { obtenerAdoptions,crearAdoption, borrarAdoption} = require("../controllers/adoption");
 
 const {validarJWT,validarCampos}=require("../middlewares");
-const {publicationIdExiste}=require("../helpers/db-validators");
+const {publicationIdExiste, adoptionIdExiste}=require("../helpers/db-validators");
 const { validarArchivo } = require("../middlewares/validar-archivo");
 const router = Router();
 
@@ -21,6 +21,13 @@ router.post("/",[
   validarArchivo,
   validarCampos
 ], crearAdoption);
+
+router.delete("/:id",[
+  validarJWT,
+  check("id","No es un id de mongo").isMongoId(),
+  check("id").custom(adoptionIdExiste),
+  validarCampos
+],borrarAdoption);
 
 
 
