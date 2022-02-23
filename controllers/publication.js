@@ -127,8 +127,33 @@ const borrarPublication = async (req, res) => {
   });
 };
 
+const confirmarAdoption = async (req, res) => {
+  const { id } = req.params;
+  const publicationAdopt = await Publication.findByIdAndUpdate(
+    id,
+    { isAdopt: true,condition:false },
+    { new: true }
+  );
+  res.json({
+    publicationAdopt,
+  });
+};
+const cancelarAdoption = async (req, res) => {
+  const { id } = req.params;
+  const publicationAdopt = await Publication.findByIdAndUpdate(
+    id,
+    { isAdopt: null,condition:true },
+    { new: true }
+  );
+  res.json({
+    publicationAdopt,
+  });
+};
+
 module.exports = {
+  cancelarAdoption,
   crearPublication,
+  confirmarAdoption,
   obtenerPublications,
   obtenerPublicationsUser,
   obtenerPublicationsType,

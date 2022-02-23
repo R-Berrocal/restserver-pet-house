@@ -7,6 +7,8 @@ const { crearPublication,
         actualizarPublication, 
         borrarPublication,
         obtenerPublicationsType,
+        confirmarAdoption,
+        cancelarAdoption,
         } = require("../controllers/publication");
 
 const {validarJWT,validarCampos, esAdminRole}=require("../middlewares");
@@ -61,5 +63,21 @@ router.delete("/:id",[
   check("id").custom(publicationIdExiste),
   validarCampos
 ],borrarPublication);
+
+//confirmar adopcion y eliminar publicacion
+router.put("/adopt/:id",[
+  validarJWT,
+  esAdminRole,
+  check("id","No es un id de mongo").isMongoId(),
+  check("id").custom(publicationIdExiste),
+  validarCampos
+],confirmarAdoption);
+router.put("/cancelAdopt/:id",[
+  validarJWT,
+  esAdminRole,
+  check("id","No es un id de mongo").isMongoId(),
+  check("id").custom(publicationIdExiste),
+  validarCampos
+],cancelarAdoption);
 
 module.exports = router;

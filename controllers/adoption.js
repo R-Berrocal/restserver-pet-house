@@ -23,6 +23,25 @@ const obtenerAdoptions=async(req,res)=>{
         adoptions
     })
 }
+const obtenerAdoptionsConfirmadas=async(req,res)=>{
+    const {limite=10, desde=0}= req.query;
+    const query = {condition:false};
+    const [total,adoptions]= await Promise.all([
+        Adoption.countDocuments(query),
+        Adoption.find(query)
+        .populate("user",["name","img"])
+        .populate("publication_id",["title","imgs"])
+        .sort({"created_In":-1})
+        .skip(Number(desde))
+        .limit(Number(limite))
+
+    ])
+
+    res.json({
+        total,
+        adoptions
+    })
+}
 const crearAdoption=async(req,res)=>{
     const {condition,user, ...resto} = req.body;
 
@@ -64,8 +83,18 @@ const borrarAdoption=async(req,res)=>{
         adoption
     })
 }
+const borrarAdoptionRechazadas=async(req,res)=>{
+    const {id}=req.params;
+    const adoption= await Adoption.findByIdAndDelete(id,{new:true});
+    res.json({
+        adoption
+    })
+}
+
 module.exports={
+    borrarAdoption,
+    borrarAdoptionRechazadas,
     obtenerAdoptions,
+    obtenerAdoptionsConfirmadas,
     crearAdoption,
-    borrarAdoption
 }

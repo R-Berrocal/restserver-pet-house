@@ -40,7 +40,7 @@ const commentIdExiste= async(id)=>{
 const adoptionIdExiste= async(id)=>{
   const adoptionExiste = await Adoption.findById(id);
   if(!adoptionExiste){
-    throw new Error(`El id del comentario no existe, ${id}`);
+    throw new Error(`El id de la adopcion no existe, ${id}`);
   }
 }
 
