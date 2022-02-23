@@ -11,7 +11,7 @@ const obtenerAdoptions=async(req,res)=>{
         Adoption.countDocuments(query),
         Adoption.find(query)
         .populate("user",["name","img"])
-        .populate("publication_id","title")
+        .populate("publication_id",["title","imgs"])
         .sort({"created_In":-1})
         .skip(Number(desde))
         .limit(Number(limite))
